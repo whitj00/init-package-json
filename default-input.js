@@ -6,44 +6,9 @@ var validateName = require('validate-npm-package-name')
 var npa = require('npm-package-arg')
 var semver = require('semver')
 
-// more popular packages should go here, maybe?
-function isTestPkg (p) {
-  return !!p.match(/^(expresso|mocha|tap|coffee-script|coco|streamline)$/)
-}
-
 function niceName (n) {
   return n.replace(/^node-|[.-]js$/g, '').toLowerCase()
 }
-
-function readDeps (test) { return function (cb) {
-  fs.readdir('node_modules', function (er, dir) {
-    if (er) return cb()
-    var deps = {}
-    var n = dir.length
-    if (n === 0) return cb(null, deps)
-    dir.forEach(function (d) {
-      if (d.match(/^\./)) return next()
-      if (test !== isTestPkg(d))
-        return next()
-
-      var dp = path.join(dirname, 'node_modules', d, 'package.json')
-      fs.readFile(dp, 'utf8', function (er, p) {
-        if (er) return next()
-        try { p = JSON.parse(p) }
-        catch (e) { return next() }
-        if (!p.version) return next()
-        if (p._requiredBy) {
-          if (!p._requiredBy.some(function (req) { return req === '#USER' })) return next()
-        }
-        deps[d] = config.get('save-exact') ? p.version : config.get('save-prefix') + p.version
-        return next()
-      })
-    })
-    function next () {
-      if (--n === 0) return cb(null, deps)
-    }
-  })
-}}
 
 var name = package.name || basename
 var spec = npa(name)
@@ -134,49 +99,6 @@ exports.directories = function (cb) {
     if (Object.keys(res).length === 0) res = undefined
     return cb(null, res)
   })
-}
-
-if (!package.dependencies) {
-  exports.dependencies = readDeps(false)
-}
-
-if (!package.devDependencies) {
-  exports.devDependencies = readDeps(true)
-}
-
-// MUST have a test script!
-var s = package.scripts || {}
-var notest = 'echo "Error: no test specified" && exit 1'
-if (!package.scripts) {
-  exports.scripts = function (cb) {
-    fs.readdir(path.join(dirname, 'node_modules'), function (er, d) {
-      setupScripts(d || [], cb)
-    })
-  }
-}
-function setupScripts (d, cb) {
-  // check to see what framework is in use, if any
-  function tx (test) {
-    return test || notest
-  }
-  if (!s.test || s.test === notest) {
-    var commands = {
-      'tap':'tap test/*.js'
-    , 'expresso':'expresso test'
-    , 'mocha':'mocha'
-    }
-    var command
-    Object.keys(commands).forEach(function (k) {
-      if (d.indexOf(k) !== -1) command = commands[k]
-    })
-    var ps = 'test command'
-    if (yes) {
-      s.test = command || notest
-    } else {
-      s.test = command ? prompt(ps, command, tx) : prompt(ps, tx)
-    }
-  }
-  return cb(null, s)
 }
 
 if (!package.repository) {
