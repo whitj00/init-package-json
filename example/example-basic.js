@@ -1,4 +1,4 @@
-var init = require('../init-package-json.js')
+var init = require('../init-contract-json.js')
 var dir = process.cwd()
 var initFile = require.resolve('./init/basic-init.js')
 

@@ -1,17 +1,17 @@
 {
-  "name": "init-package-json",
-  "version": "1.9.1",
-  "main": "init-package-json.js",
+  "name": "init-contract-json",
+  "version": "1.0.0",
+  "main": "init-contract-json.js",
   "scripts": {
     "test": "tap test/*.js"
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/isaacs/init-package-json"
+    "url": "git://github.com/whitj00/init-package-json"
   },
-  "author": "Isaac Z. Schlueter <i@izs.me> (http://blog.izs.me/)",
+  "author": "Whit Jackson <whit@etherparty.io>, Isaac Z. Schlueter <i@izs.me> (http://blog.izs.me/)",
   "license": "ISC",
-  "description": "A node module to get your node module started",
+  "description": "A eppm module to get your eppm module started",
   "dependencies": {
     "glob": "^5.0.3",
     "npm-package-arg": "^4.0.0",
