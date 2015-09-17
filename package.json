@@ -1,6 +1,6 @@
 {
   "name": "init-contract-json",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "main": "init-contract-json.js",
   "scripts": {
     "test": "tap test/*.js"
@@ -19,7 +19,6 @@
     "read": "~1.0.1",
     "read-package-json": "1 || 2",
     "semver": "2.x || 3.x || 4 || 5",
-    "validate-npm-package-license": "^3.0.1",
     "validate-npm-package-name": "^2.0.1"
   },
   "devDependencies": {
@@ -28,13 +27,8 @@
     "tap": "^1.2.0"
   },
   "keywords": [
-    "init",
-    "package.json",
-    "package",
-    "helper",
-    "wizard",
-    "wizerd",
-    "prompt",
-    "start"
+    "ethereum",
+    "solidity",
+    "contract.json"
   ]
 }
