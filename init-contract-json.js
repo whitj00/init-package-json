@@ -40,7 +40,7 @@ function init (dir, input, config, cb) {
     }
   }
 
-  var package = path.resolve(dir, 'package.json')
+  var package = path.resolve(dir, 'contract.json')
   input = path.resolve(input)
   var pkg
   var ctx = { yes: yes(config) }
