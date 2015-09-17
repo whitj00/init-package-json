@@ -1,7 +1,6 @@
 var fs = require('fs')
 var glob = require('glob')
 var path = require('path')
-var validateLicense = require('validate-npm-package-license')
 var validateName = require('validate-npm-package-name')
 var npa = require('npm-package-arg')
 var semver = require('semver')
@@ -66,7 +65,7 @@ if (!package.main) {
         f = f[0]
 
       var index = f || 'index.js'
-      return cb(null, yes ? index : prompt('entry point', index))
+      return cb(null, yes ? index : prompt('main contract', index))
     })
   }
 }
@@ -145,16 +144,3 @@ if (!package.author) {
     }
   : yes ? '' : prompt('author')
 }
-
-var license = package.license ||
-              config.get('init.license') ||
-              config.get('init-license') ||
-              'ISC'
-exports.license = yes ? license : prompt('license', license, function (data) {
-  var its = validateLicense(data)
-  if (its.validForNewPackages) return data
-  var errors = (its.errors || []).concat(its.warnings || [])
-  var er = new Error('Sorry, ' + errors.join(' and ') + '.')
-  er.notValid = true
-  return er
-})
